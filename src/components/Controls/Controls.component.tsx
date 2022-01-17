@@ -1,4 +1,3 @@
-import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import {
   InfoRow,
@@ -7,16 +6,16 @@ import {
   FiltersRow,
   FiltersButton,
   DragnDropText,
-} from './styles';
-import { FilterName } from './types';
+} from './Controls.style';
+import type { ControlsProps } from './Controls.types';
 
-const Controls = ({
+function Controls({
   undoneTodos,
   onCompletedTodosClear,
   filters,
   currentFilter,
   onTodosFilterChange,
-}: ControlsProps) => {
+}: ControlsProps) {
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-device-width: 570px)',
   });
@@ -36,7 +35,7 @@ const Controls = ({
       <InfoRow>
         <InfoRowText>{undoneTodos} items left</InfoRowText>
         {isDesktopOrLaptop && <span>{filtersControlButtons}</span>}
-        <InfoRowButton onClick={onCompletedTodosClear} type='button'>
+        <InfoRowButton onClick={onCompletedTodosClear} type="button">
           Clear Completed
         </InfoRowButton>
       </InfoRow>
@@ -44,14 +43,6 @@ const Controls = ({
       <DragnDropText>Drag and drop to reorder list</DragnDropText>
     </>
   );
-};
-
-interface ControlsProps {
-  undoneTodos: number;
-  onCompletedTodosClear: () => void;
-  filters: FilterName[];
-  currentFilter: FilterName;
-  onTodosFilterChange: (newFilterName: FilterName) => void;
 }
 
 export default Controls;

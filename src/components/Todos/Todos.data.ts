@@ -1,6 +1,6 @@
-import type { Todo } from './types';
+import type { Todo } from './Todos.types';
 
-const initialTodos: Todo[] = [
+export const initialTodos: Todo[] = [
   {
     name: 'Complete online JavaScript course',
     done: true,
@@ -17,4 +17,8 @@ const initialTodos: Todo[] = [
   },
 ];
 
-export default initialTodos;
+export const filters = {
+  All: (todos: Todo[]) => todos,
+  Active: (todos: Todo[]) => todos.filter((todo) => !todo.done),
+  Completed: (todos: Todo[]) => todos.filter((todo) => todo.done),
+};

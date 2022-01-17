@@ -1,24 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
-import { Row, RowCheck, RowCheckWrapper, RowCross } from './styles';
-import {
-  ConditionalFadeIn,
-  //  FadeIn
-} from '../Fade/Index';
-import type { Todo } from './types';
+import { TodoRow, RowCheck, RowCheckWrapper, RowCross } from './List.style';
+import type { Todo } from '../Todos';
+import FadeIn from '../Fade';
 
-const List = ({
-  todos,
-  onTodoCompletion,
-  onTodoDelete,
-  onDragEnd,
-}: ListProps) => {
+function List({ todos, onTodoCompletion, onTodoDelete, onDragEnd }: ListProps) {
   const oldTodos = useRef(todos);
 
   useEffect(() => {
@@ -27,7 +19,7 @@ const List = ({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='0'>
+      <Droppable droppableId="0">
         {(provided) => (
           <div
             ref={provided.innerRef}
@@ -46,12 +38,11 @@ const List = ({
                     {...innerProvided.dragHandleProps}
                     {...innerProvided.draggableProps}
                   >
-                    <ConditionalFadeIn
-                      duration='0.5s'
+                    <FadeIn
+                      duration="0.5s"
                       condition={!oldTodos.current.includes(todo)}
                     >
-                      <Row
-                        divider
+                      <TodoRow
                         borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
                         done={todo.done}
                       >
@@ -63,8 +54,8 @@ const List = ({
                         </RowCheckWrapper>
                         {todo.name}
                         <RowCross onClick={() => onTodoDelete(todo.id)} />
-                      </Row>
-                    </ConditionalFadeIn>
+                      </TodoRow>
+                    </FadeIn>
                   </div>
                 )}
               </Draggable>
@@ -75,7 +66,7 @@ const List = ({
       </Droppable>
     </DragDropContext>
   );
-};
+}
 
 interface ListProps {
   todos: Todo[];

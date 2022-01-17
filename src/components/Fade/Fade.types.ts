@@ -8,3 +8,8 @@ export interface BaseAnimationProps {
   playState?: string;
   display?: string;
 }
+
+export interface ConditionalFadeInProps extends BaseAnimationProps {
+  children: JSX.Element;
+  condition?: boolean;
+}

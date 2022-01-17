@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
-import { Container } from './styles';
+import { Container } from './Todos.style';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import Header from './Header';
-import Creator from './Creator';
-import List from './List';
-import Controls from './Controls';
-import initialTodos from './initialTodos';
-import type { Todo } from './types';
+import Creator from '../Creator';
+import List from '../List';
+import Controls from '../Controls';
+import { initialTodos, filters } from './Todos.data';
+import type { TodosProps, FilterName } from './Todos.types';
 
-const filters = {
-  All: (todos: Todo[]) => todos,
-  Active: (todos: Todo[]) => todos.filter((todo) => !todo.done),
-  Completed: (todos: Todo[]) => todos.filter((todo) => todo.done),
-};
-
-const Todos = () => {
+function Todos({ children }: TodosProps) {
   const [storageTodos, setStorageTodos] = useLocalStorage(
     'todos',
     initialTodos
@@ -91,7 +84,7 @@ const Todos = () => {
 
   return (
     <Container>
-      <Header />
+      {children}
       <Creator
         newTodoName={newTodoName}
         onChange={handleChange}
@@ -103,22 +96,17 @@ const Todos = () => {
         onTodoDelete={handleTodoDelete}
         onDragEnd={handleDragEnd}
       />
-      {storageTodos.length ? (
-        <>
-          <Controls
-            currentFilter={currentFilter.name}
-            filters={Object.keys(filters) as Array<FilterName>}
-            onTodosFilterChange={handleFilterChange}
-            undoneTodos={storageTodos.filter((todo) => !todo.done).length}
-            onCompletedTodosClear={handleCompletedTodosClear}
-          />
-        </>
-      ) : (
-        ''
+      {!!storageTodos.length && (
+        <Controls
+          currentFilter={currentFilter.name}
+          filters={Object.keys(filters) as Array<FilterName>}
+          onTodosFilterChange={handleFilterChange}
+          undoneTodos={storageTodos.filter((todo) => !todo.done).length}
+          onCompletedTodosClear={handleCompletedTodosClear}
+        />
       )}
     </Container>
   );
-};
+}
 
-export type FilterName = keyof typeof filters;
 export default Todos;

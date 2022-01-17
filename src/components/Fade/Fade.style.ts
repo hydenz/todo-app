@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import type { BaseAnimationProps } from './types';
+import type { BaseAnimationProps } from './Fade.types';
 
 const BaseAnimation = styled.div<BaseAnimationProps>`
   animation-duration: ${(props) => props.duration || '1s'};
@@ -15,11 +15,8 @@ const BaseAnimation = styled.div<BaseAnimationProps>`
 const FadeInAnimation = keyframes`  
   from { opacity: 0.1; }
   to { opacity: 1; }
-
 `;
 
-const FadeIn = styled(BaseAnimation)`
+export const FadeIn = styled(BaseAnimation)`
   animation-name: ${FadeInAnimation};
 `;
-
-export default FadeIn;

@@ -1,43 +1,28 @@
-import React, { useState, createContext, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import Background from './components/Background/Index';
-import Todos from './components/Todos/Index';
-import { Dark, Light } from './themes/Themes';
+import Background from './components/Background';
+import Todos from './components/Todos';
+import { DarkTheme, LightTheme } from './themes';
 import useLocalStorage from './hooks/useLocalStorage';
 import GlobalStyle from './components/GlobalStyle';
-import { FadeIn } from './components/Fade/Index';
-
-const ThemeChangerContext = createContext<React.Dispatch<
-  React.SetStateAction<'dark' | 'light'>
-> | null>(null);
+import FadeIn from './components/Fade';
+import Header from './components/Header';
 
 function App() {
-  const [storageTheme, setStorageTheme] = useLocalStorage(
-    'todo-theme',
-    'dark' as 'dark' | 'light'
-  );
+  const [isDarkTheme, setIsDarkTheme] = useLocalStorage('todo-theme', false);
 
-  const [currentTheme, setCurrentTheme] = useState(
-    storageTheme === 'light' ? Light : Dark
-  );
+  const currentTheme = isDarkTheme ? DarkTheme : LightTheme;
 
-  useEffect(() => {
-    setCurrentTheme(storageTheme === 'light' ? Light : Dark);
-  }, [storageTheme]);
   return (
-    <>
-      <ThemeProvider theme={currentTheme}>
-        <ThemeChangerContext.Provider value={setStorageTheme}>
-          <GlobalStyle />
-          <Background />
-          <FadeIn>
-            <Todos />
-          </FadeIn>
-        </ThemeChangerContext.Provider>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={currentTheme}>
+      <GlobalStyle />
+      <Background />
+      <FadeIn>
+        <Todos>
+          <Header setIsDarkTheme={setIsDarkTheme} />
+        </Todos>
+      </FadeIn>
+    </ThemeProvider>
   );
 }
 
 export default App;
-export { ThemeChangerContext };

@@ -1,8 +1,7 @@
-import React from 'react';
-import FadeIn from './styles';
-import type { BaseAnimationProps } from './types';
+import { FadeIn } from './Fade.style';
+import type { ConditionalFadeInProps } from './Fade.types';
 
-const ConditionalFadeIn = ({
+function ConditionalFadeIn({
   duration,
   timingFunction,
   delay,
@@ -13,8 +12,8 @@ const ConditionalFadeIn = ({
   display,
   children,
   condition,
-}: ConditionalFadeInProps) =>
-  condition ? (
+}: ConditionalFadeInProps) {
+  return condition ? (
     <FadeIn
       duration={duration}
       timingFunction={timingFunction}
@@ -30,10 +29,6 @@ const ConditionalFadeIn = ({
   ) : (
     children
   );
-
-interface ConditionalFadeInProps extends BaseAnimationProps {
-  children: JSX.Element;
-  condition: boolean;
 }
 
-export { FadeIn, ConditionalFadeIn };
+export default ConditionalFadeIn;
