@@ -22,13 +22,18 @@ function Todos({ children }: TodosProps) {
   const shownTodos = currentFilter.function(storageTodos);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 50) return;
-    setNewTodoName(e.target.value);
+    const newValue = e.target.value;
+    if (newValue.length > 50) return;
+    setNewTodoName(newValue);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const id = Math.random();
+      const id = storageTodos.length
+        ? storageTodos.sort(
+            (firstTodo, secTodo) => secTodo.id - firstTodo.id
+          )[0].id + 1
+        : 1;
       setStorageTodos((oldTodos) => [
         { name: newTodoName, done: false, id },
         ...oldTodos,
@@ -38,11 +43,10 @@ function Todos({ children }: TodosProps) {
   };
 
   const handleTodoCompletion = (todoId: number) => {
-    setStorageTodos((oldTodos) => {
-      const idx = oldTodos.findIndex((todo) => todo.id === todoId);
-      const newTodos = oldTodos;
-      newTodos[idx].done = !newTodos[idx].done;
-      return [...newTodos];
+    setStorageTodos((todos) => {
+      const foundTodo = todos.find((todo) => todo.id === todoId);
+      foundTodo!.done = !foundTodo!.done;
+      return [...todos];
     });
   };
 
@@ -62,6 +66,7 @@ function Todos({ children }: TodosProps) {
       function: filters[newFilterName],
     });
   };
+
   const handleDragEnd = (e: DropResult) => {
     if (!e.destination) return;
 
