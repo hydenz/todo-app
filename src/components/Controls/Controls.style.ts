@@ -26,6 +26,7 @@ export const InfoRowButton = styled.button`
 `;
 
 export const FiltersRow = styled(Row)`
+  padding: calc(1.45rem + 0.35vw) calc(1.8rem + 0.55vw);
   border-radius: 0.5rem;
   justify-content: center;
   margin-top: 1.6rem;
