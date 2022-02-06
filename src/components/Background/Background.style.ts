@@ -4,6 +4,9 @@ export const Background = styled.header`
   display: flex;
   justify-content: space-between;
   background-image: ${({ theme }) => `url(${theme.assets.bgImages.mobile})`};
+  transition-property: background-image;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
   background-size: cover;
   min-height: 200px;
   position: absolute;
