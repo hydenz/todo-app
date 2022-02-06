@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Background = styled.header`
+export const Background = styled.div`
   display: flex;
   justify-content: space-between;
   background-image: ${({ theme }) => `url(${theme.assets.bgImages.mobile})`};

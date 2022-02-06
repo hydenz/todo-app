@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.main`
   display: flex;
   flex-direction: column;
   margin-block: clamp(4.5rem, 3.5rem + 3vw, 7.5rem) 0;
