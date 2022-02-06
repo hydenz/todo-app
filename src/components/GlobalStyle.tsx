@@ -1,7 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 
-/* TODO: Fix background color transition (on first render) */
-
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
@@ -11,10 +9,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     min-height: 100%;
     font-family: 'Josefin Sans', sans-serif;
-    background-color: ${({ theme }) => theme.colors.bodyBg};
-    transition-property: color;
-    transition-duration: 1s;
-    transition-timing-function: ease;
   }
   
   #root {

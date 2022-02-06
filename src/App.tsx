@@ -5,6 +5,7 @@ import { DarkTheme, LightTheme } from './themes';
 import useLocalStorage from './hooks/useLocalStorage';
 import GlobalStyle from './components/GlobalStyle';
 import Header from './components/Header';
+import AppContainer from './components/AppContainer';
 
 function App() {
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage('todo-theme', false);
@@ -14,10 +15,12 @@ function App() {
   return (
     <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
-      <Background />
-      <Todos>
-        <Header setIsDarkTheme={setIsDarkTheme} />
-      </Todos>
+      <AppContainer>
+        <Background />
+        <Todos>
+          <Header setIsDarkTheme={setIsDarkTheme} />
+        </Todos>
+      </AppContainer>
     </ThemeProvider>
   );
 }
