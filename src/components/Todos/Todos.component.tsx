@@ -30,7 +30,7 @@ function Todos({ children }: TodosProps) {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const id = storageTodos.length
-        ? storageTodos.sort(
+        ? [...storageTodos].sort(
             (firstTodo, secTodo) => secTodo.id - firstTodo.id
           )[0].id + 1
         : 1;
@@ -100,6 +100,7 @@ function Todos({ children }: TodosProps) {
         onTodoCompletion={handleTodoCompletion}
         onTodoDelete={handleTodoDelete}
         onDragEnd={handleDragEnd}
+        currentFilterName={currentFilter.name}
       />
       {!!storageTodos.length && (
         <Controls

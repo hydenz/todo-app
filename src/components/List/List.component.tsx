@@ -1,22 +1,27 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import { useEffect, useRef } from 'react';
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
-import { TodoRow, RowCheck, RowCheckWrapper, RowCross } from './List.style';
-import type { Todo } from '../Todos';
-import FadeIn from '../Fade';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import {
+  TodoRow,
+  RowCheck,
+  RowCheckWrapper,
+  RowCross,
+  DraggableChildren,
+} from './List.style';
+import type { FilterName, Todo } from '../Todos';
 
-function List({ todos, onTodoCompletion, onTodoDelete, onDragEnd }: ListProps) {
-  const oldTodos = useRef(todos);
-
-  useEffect(() => {
-    oldTodos.current = todos;
-  }, [todos]);
-
+function List({
+  todos,
+  onTodoCompletion,
+  onTodoDelete,
+  onDragEnd,
+  currentFilterName,
+}: ListProps) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="0">
@@ -26,40 +31,38 @@ function List({ todos, onTodoCompletion, onTodoDelete, onDragEnd }: ListProps) {
             {...provided.droppableProps}
             style={{ boxShadow: '0px 50px 22px -20px #000' }}
           >
-            {todos.map((todo, idx) => (
-              <Draggable
-                draggableId={todo.id.toString()}
-                index={idx}
-                key={todo.id}
-              >
-                {(innerProvided) => (
-                  <div
-                    ref={innerProvided.innerRef}
-                    {...innerProvided.dragHandleProps}
-                    {...innerProvided.draggableProps}
-                  >
-                    <FadeIn
-                      duration="0.5s"
-                      condition={!oldTodos.current.includes(todo)}
-                    >
-                      <TodoRow
-                        borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
-                        done={todo.done}
+            <TransitionGroup
+              appear
+              exit={!['Active', 'Completed'].includes(currentFilterName)}
+            >
+              {todos.map((todo, idx) => (
+                <CSSTransition classNames="fade" timeout={500} key={todo.id}>
+                  <Draggable draggableId={todo.id.toString()} index={idx}>
+                    {(innerProvided) => (
+                      <DraggableChildren
+                        ref={innerProvided.innerRef}
+                        {...innerProvided.dragHandleProps}
+                        {...innerProvided.draggableProps}
                       >
-                        <RowCheckWrapper
+                        <TodoRow
+                          borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
                           done={todo.done}
-                          onClick={() => onTodoCompletion(todo.id)}
                         >
-                          <RowCheck done={todo.done} />
-                        </RowCheckWrapper>
-                        {todo.name}
-                        <RowCross onClick={() => onTodoDelete(todo.id)} />
-                      </TodoRow>
-                    </FadeIn>
-                  </div>
-                )}
-              </Draggable>
-            ))}
+                          <RowCheckWrapper
+                            done={todo.done}
+                            onClick={() => onTodoCompletion(todo.id)}
+                          >
+                            <RowCheck done={todo.done} />
+                          </RowCheckWrapper>
+                          {todo.name}
+                          <RowCross onClick={() => onTodoDelete(todo.id)} />
+                        </TodoRow>
+                      </DraggableChildren>
+                    )}
+                  </Draggable>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
             {provided.placeholder}
           </div>
         )}
@@ -73,6 +76,7 @@ interface ListProps {
   onTodoCompletion: (todoId: number) => void;
   onTodoDelete: (todoId: number) => void;
   onDragEnd: (e: DropResult) => void;
+  currentFilterName: FilterName;
 }
 
 export default List;

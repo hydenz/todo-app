@@ -3,6 +3,35 @@ import checkIcon from '../../assets/icon-check.svg';
 import crossIcon from '../../assets/icon-cross.svg';
 import Row from '../Row';
 
+export const DraggableChildren = styled.div`
+  &.fade-appear {
+    opacity: 0;
+  }
+
+  &.fade-appear-active {
+    opacity: 1;
+    transition: opacity 500ms ease;
+  }
+
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease;
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+`;
+
 export const TodoRow = styled(Row)<TodoRowProps>`
   padding: calc(1.45rem + 0.35vw) calc(1.8rem + 0.55vw);
   color: ${({ done, theme }) =>

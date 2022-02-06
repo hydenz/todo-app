@@ -4,7 +4,6 @@ import Todos from './components/Todos';
 import { DarkTheme, LightTheme } from './themes';
 import useLocalStorage from './hooks/useLocalStorage';
 import GlobalStyle from './components/GlobalStyle';
-import FadeIn from './components/Fade';
 import Header from './components/Header';
 
 function App() {
@@ -16,11 +15,9 @@ function App() {
     <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <Background />
-      <FadeIn>
-        <Todos>
-          <Header setIsDarkTheme={setIsDarkTheme} />
-        </Todos>
-      </FadeIn>
+      <Todos>
+        <Header setIsDarkTheme={setIsDarkTheme} />
+      </Todos>
     </ThemeProvider>
   );
 }
