@@ -17,8 +17,23 @@ export const initialTodos: Todo[] = [
   },
 ];
 
+export enum FilterName {
+  ALL = 'All',
+  ACTIVE = 'Active',
+  COMPLETED = 'Completed',
+}
+
 export const filters = {
-  All: (todos: Todo[]) => todos,
-  Active: (todos: Todo[]) => todos.filter((todo) => !todo.done),
-  Completed: (todos: Todo[]) => todos.filter((todo) => todo.done),
+  [FilterName.ALL]: {
+    name: FilterName.ALL,
+    function: (todos: Todo[]) => todos,
+  },
+  [FilterName.ACTIVE]: {
+    name: FilterName.ACTIVE,
+    function: (todos: Todo[]) => todos.filter((todo) => !todo.done),
+  },
+  [FilterName.COMPLETED]: {
+    name: FilterName.COMPLETED,
+    function: (todos: Todo[]) => todos.filter((todo) => todo.done),
+  },
 };

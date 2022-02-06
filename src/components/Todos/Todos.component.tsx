@@ -5,8 +5,8 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import Creator from '../Creator';
 import List from '../List';
 import Controls from '../Controls';
-import { initialTodos, filters } from './Todos.data';
-import type { TodosProps, FilterName } from './Todos.types';
+import { initialTodos, FilterName, filters } from './Todos.data';
+import type { TodosProps } from './Todos.types';
 
 function Todos({ children }: TodosProps) {
   const [storageTodos, setStorageTodos] = useLocalStorage(
@@ -14,10 +14,7 @@ function Todos({ children }: TodosProps) {
     initialTodos
   );
   const [newTodoName, setNewTodoName] = useState('');
-  const [currentFilter, setCurrentFilter] = useState({
-    name: 'All' as FilterName,
-    function: filters.All,
-  });
+  const [currentFilter, setCurrentFilter] = useState(filters.All);
 
   const shownTodos = currentFilter.function(storageTodos);
 
@@ -61,10 +58,7 @@ function Todos({ children }: TodosProps) {
   };
 
   const handleFilterChange = (newFilterName: FilterName) => {
-    setCurrentFilter({
-      name: newFilterName,
-      function: filters[newFilterName],
-    });
+    setCurrentFilter(filters[newFilterName]);
   };
 
   const handleDragEnd = (e: DropResult) => {
@@ -104,8 +98,7 @@ function Todos({ children }: TodosProps) {
       />
       {!!storageTodos.length && (
         <Controls
-          currentFilter={currentFilter.name}
-          filters={Object.keys(filters) as Array<FilterName>}
+          currentFilterName={currentFilter.name}
           onTodosFilterChange={handleFilterChange}
           undoneTodos={storageTodos.filter((todo) => !todo.done).length}
           onCompletedTodosClear={handleCompletedTodosClear}

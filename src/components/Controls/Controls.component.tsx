@@ -8,27 +8,29 @@ import {
   DragnDropText,
 } from './Controls.style';
 import type { ControlsProps } from './Controls.types';
+import { filters, FilterName } from '../Todos';
 
 function Controls({
   undoneTodos,
   onCompletedTodosClear,
-  filters,
-  currentFilter,
+  currentFilterName,
   onTodosFilterChange,
 }: ControlsProps) {
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-device-width: 570px)',
   });
 
-  const filtersControlButtons = filters.map((filterName) => (
-    <FiltersButton
-      key={filterName}
-      selected={currentFilter === filterName}
-      onClick={() => onTodosFilterChange(filterName)}
-    >
-      {filterName}
-    </FiltersButton>
-  ));
+  const filtersControlButtons = (Object.keys(filters) as FilterName[]).map(
+    (filterName) => (
+      <FiltersButton
+        key={filterName}
+        selected={currentFilterName === filterName}
+        onClick={() => onTodosFilterChange(filterName)}
+      >
+        {filterName}
+      </FiltersButton>
+    )
+  );
 
   return (
     <>

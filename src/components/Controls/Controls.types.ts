@@ -3,7 +3,6 @@ import type { FilterName } from '../Todos';
 export interface ControlsProps {
   undoneTodos: number;
   onCompletedTodosClear: () => void;
-  filters: FilterName[];
-  currentFilter: FilterName;
+  currentFilterName: FilterName;
   onTodosFilterChange: (newFilterName: FilterName) => void;
 }

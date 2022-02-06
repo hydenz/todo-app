@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading  */
+import { useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -22,6 +23,8 @@ function List({
   onDragEnd,
   currentFilterName,
 }: ListProps) {
+  const [hoveredTodoId, setHoveredTodoId] = useState<number | null>(null);
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="0">
@@ -31,18 +34,24 @@ function List({
             {...provided.droppableProps}
             style={{ boxShadow: '0px 50px 22px -20px #000' }}
           >
-            <TransitionGroup
-              appear
-              exit={!['Active', 'Completed'].includes(currentFilterName)}
-            >
+            <TransitionGroup appear>
               {todos.map((todo, idx) => (
-                <CSSTransition classNames="fade" timeout={500} key={todo.id}>
+                <CSSTransition
+                  classNames="fade"
+                  timeout={500}
+                  key={todo.id}
+                  exit={
+                    currentFilterName === 'All' || todo.id === hoveredTodoId
+                  }
+                >
                   <Draggable draggableId={todo.id.toString()} index={idx}>
                     {(innerProvided) => (
                       <DraggableChildren
                         ref={innerProvided.innerRef}
                         {...innerProvided.dragHandleProps}
                         {...innerProvided.draggableProps}
+                        onMouseOver={() => setHoveredTodoId(todo.id)}
+                        onMouseOut={() => setHoveredTodoId(null)}
                       >
                         <TodoRow
                           borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
