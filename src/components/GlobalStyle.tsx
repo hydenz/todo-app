@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+/* TODO: Fix background color transition (on first render) */
+
 const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
