@@ -5,6 +5,10 @@
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     "airbnb",
     "airbnb-typescript",
     "prettier"
@@ -20,10 +24,9 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "react/require-default-props": "off",
-    "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
     "no-restricted-exports": "off",
-    "import/prefer-default-export": "off"
+    "@typescript-eslint/no-unused-vars": "warn"
   }
 }
