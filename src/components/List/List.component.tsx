@@ -14,7 +14,8 @@ import {
   RowCross,
   DraggableChildren,
 } from './List.style';
-import type { FilterName, Todo } from '../Todos';
+import type { Todo } from '../Todos';
+import { FilterName } from "../Todos"
 
 function List({
   todos,
@@ -23,7 +24,6 @@ function List({
   onDragEnd,
   currentFilterName,
 }: ListProps) {
-  const [hoveredTodoId, setHoveredTodoId] = useState<number | null>(null);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -35,42 +35,46 @@ function List({
             style={{ boxShadow: '0px 50px 22px -20px #000' }}
           >
             <TransitionGroup appear>
-              {todos.map((todo, idx) => (
-                <CSSTransition
-                  classNames="fade"
-                  timeout={500}
-                  key={todo.id}
-                  exit={
-                    currentFilterName === 'All' || todo.id === hoveredTodoId
-                  }
-                >
-                  <Draggable draggableId={todo.id.toString()} index={idx}>
-                    {(innerProvided) => (
-                      <DraggableChildren
-                        ref={innerProvided.innerRef}
-                        {...innerProvided.dragHandleProps}
-                        {...innerProvided.draggableProps}
-                        onMouseOver={() => setHoveredTodoId(todo.id)}
-                        onMouseOut={() => setHoveredTodoId(null)}
-                      >
-                        <TodoRow
-                          borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
-                          done={todo.done}
+              {todos.map((todo, idx) => {
+                const exitMappings = {
+                  [FilterName.ALL]: true,
+                  [FilterName.ACTIVE]: todo.done,
+                  [FilterName.COMPLETED]: !todo.done
+                }
+
+                return (
+                  <CSSTransition
+                    classNames="fade"
+                    timeout={500}
+                    key={todo.id}
+                    exit={exitMappings[currentFilterName]}
+                  >
+                    <Draggable draggableId={todo.id.toString()} index={idx}>
+                      {(innerProvided) => (
+                        <DraggableChildren
+                          ref={innerProvided.innerRef}
+                          {...innerProvided.dragHandleProps}
+                          {...innerProvided.draggableProps}
                         >
-                          <RowCheckWrapper
+                          <TodoRow
+                            borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
                             done={todo.done}
-                            onClick={() => onTodoCompletion(todo.id)}
                           >
-                            <RowCheck done={todo.done} />
-                          </RowCheckWrapper>
-                          {todo.name}
-                          <RowCross onClick={() => onTodoDelete(todo.id)} />
-                        </TodoRow>
-                      </DraggableChildren>
-                    )}
-                  </Draggable>
-                </CSSTransition>
-              ))}
+                            <RowCheckWrapper
+                              done={todo.done}
+                              onClick={() => onTodoCompletion(todo.id)}
+                            >
+                              <RowCheck done={todo.done} />
+                            </RowCheckWrapper>
+                            {todo.name}
+                            <RowCross onClick={() => onTodoDelete(todo.id)} />
+                          </TodoRow>
+                        </DraggableChildren>
+                      )}
+                    </Draggable>
+                  </CSSTransition>
+                )
+              })}
             </TransitionGroup>
             {provided.placeholder}
           </div>
