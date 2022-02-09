@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import { useState } from 'react';
 import {
   DragDropContext,
   Droppable,
