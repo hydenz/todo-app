@@ -1,1 +1,1 @@
-export { default } from './Background.component';
+export { Background as default } from './Background.style';
