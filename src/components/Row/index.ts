@@ -1,1 +1,1 @@
-export { default } from './Row.component';
+export { Container as default } from './Row.style';

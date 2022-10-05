@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.rowBg};
@@ -8,5 +8,3 @@ const Container = styled.div`
   transition-duration: 1s;
   transition-timing-function: ease;
 `;
-
-export default Container;
