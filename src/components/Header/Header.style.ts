@@ -18,10 +18,7 @@ export const Button = styled.button.attrs({
   background: none;
   border: none;
   width: calc(1.7rem + 0.6vw);
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const ButtonImage = styled.img.attrs(({ theme }) => ({

@@ -19,8 +19,9 @@ export const InfoRowButton = styled.button`
   font-family: inherit;
   font-size: clamp(1.2rem, 0.8rem + 1vw, 1.4rem);
   color: ${({ theme }) => theme.colors.clearCompletedFont};
+  cursor: pointer;
+
   &:hover {
-    cursor: pointer;
     color: ${({ theme }) => theme.colors.clearCompletedHoverFont};
   }
 `;
@@ -42,8 +43,9 @@ export const FiltersButton = styled.button.attrs({
   margin: 0 1rem;
   color: ${({ selected, theme }) =>
     selected ? theme.colors.filterSelectedFont : theme.colors.filterFont};
+  cursor: pointer;
+
   &:hover {
-    cursor: pointer;
     color: ${({ selected, theme }) =>
       !selected && theme.colors.filterHoverFont};
   }

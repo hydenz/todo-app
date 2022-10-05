@@ -58,10 +58,7 @@ export const RowCheck = styled.button.attrs({ type: 'button' })<RowCheckProps>`
   transition-property: background-color, color;
   transition-duration: 1s;
   transition-timing-function: ease;
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 interface RowCheckProps {
