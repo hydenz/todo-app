@@ -1,1 +1,1 @@
-export { default } from './AppContainer.component';
+export { AppContainer as default } from './AppContainer.style';
