@@ -7,11 +7,11 @@ import {
   FiltersButton,
   DragnDropText,
 } from './Controls.style';
-import type { ControlsProps } from './Controls.types';
 import { filters, FilterName } from '../Todos';
+import type { ControlsProps } from './Controls.types';
 
 function Controls({
-  undoneTodos,
+  activeTodosLength,
   onCompletedTodosClear,
   currentFilterName,
   onTodosFilterChange,
@@ -35,7 +35,7 @@ function Controls({
   return (
     <>
       <InfoRow>
-        <InfoRowText>{undoneTodos} items left</InfoRowText>
+        <InfoRowText>{activeTodosLength} items left</InfoRowText>
         {isDesktopOrLaptop && <span>{filtersControlButtons}</span>}
         <InfoRowButton onClick={onCompletedTodosClear} type="button">
           Clear Completed
