@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { DropResult } from 'react-beautiful-dnd';
-import { Container } from './Todos.style';
+import { useRef, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import { Container, FadeContainer } from './Todos.style';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Creator from '../Creator';
 import List from '../List';
@@ -13,66 +13,61 @@ function Todos({ children }: TodosProps) {
     'todos',
     initialTodos
   );
-  const [newTodoName, setNewTodoName] = useState('');
-  const [currentFilter, setCurrentFilter] = useState(filters.All);
+  const [currentFilter, setCurrentFilter] = useState<
+    typeof filters[FilterName]
+  >(filters.All);
+  const [showTodos, setShowTodos] = useState(true);
 
-  const shownTodos = currentFilter.function(storageTodos);
+  const filteredTodos = storageTodos.filter(currentFilter.function);
 
   const nextFilterName = useRef<FilterName>(currentFilter.name);
 
   const handleCompletedTodosClear = () => {
-    setStorageTodos((oldTodos) => oldTodos.filter((todo) => !todo.done));
-  };
-
-  const handleTodoDelete = (todoId: number) => {
-    setStorageTodos((oldTodos) =>
-      oldTodos.filter((todo) => todo.id !== todoId)
-    );
+    setStorageTodos((oldTodos) => oldTodos.filter(filters.Active.function));
   };
 
   const handleFilterChange = (newFilterName: FilterName) => {
-    setCurrentFilter(filters[newFilterName]);
+    if (newFilterName === currentFilter.name) return;
+
+    nextFilterName.current = newFilterName;
+    setShowTodos(false);
   };
 
-  const handleDragEnd = (e: DropResult) => {
-    if (!e.destination) return;
-
-    // Setting the new todos so that the filters do not interfere in the order
-    setStorageTodos((oldStorageTodos) => {
-      const currentShownTodos = [...shownTodos];
-      const spliced = currentShownTodos.splice(e.source.index, 1)[0];
-      currentShownTodos.splice(e.destination!.index, 0, spliced);
-      let i = 0;
-      const newStorageTodos = oldStorageTodos.map((todo) => {
-        if (currentShownTodos.includes(todo)) {
-          i += 1;
-          return currentShownTodos[i - 1];
-        }
-        return todo;
-      });
-      return newStorageTodos;
-    });
+  const handleExited = () => {
+    setCurrentFilter(filters[nextFilterName.current]);
+    setShowTodos(true);
   };
 
   return (
     <Container>
       {children}
       <Creator storageTodos={storageTodos} setStorageTodos={setStorageTodos} />
-      <List
-        todos={shownTodos}
-        onTodoCompletion={handleTodoCompletion}
-        onTodoDelete={handleTodoDelete}
-        onDragEnd={handleDragEnd}
-        currentFilterName={currentFilter.name}
-      />
-      {!!storageTodos.length && (
-        <Controls
-          currentFilterName={currentFilter.name}
-          onTodosFilterChange={handleFilterChange}
-          undoneTodos={storageTodos.filter((todo) => !todo.done).length}
-          onCompletedTodosClear={handleCompletedTodosClear}
-        />
-      )}
+      <CSSTransition
+        classNames="fade"
+        timeout={500}
+        in={showTodos}
+        appear
+        unmountOnExit
+        onExited={handleExited}
+      >
+        <FadeContainer>
+          <List
+            showTodos={showTodos}
+            filteredTodos={filteredTodos}
+            setStorageTodos={setStorageTodos}
+          />
+          {!!storageTodos.length && (
+            <Controls
+              currentFilterName={currentFilter.name}
+              onTodosFilterChange={handleFilterChange}
+              activeTodosLength={
+                storageTodos.filter(filters.Active.function).length
+              }
+              onCompletedTodosClear={handleCompletedTodosClear}
+            />
+          )}
+        </FadeContainer>
+      </CSSTransition>
     </Container>
   );
 }

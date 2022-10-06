@@ -8,3 +8,32 @@ export const Container = styled.main`
   width: 87%;
   max-width: 540px;
 `;
+
+export const FadeContainer = styled.div`
+  &.fade-appear {
+    opacity: 0;
+  }
+
+  &.fade-appear-active {
+    opacity: 1;
+    transition: opacity 500ms ease;
+  }
+
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease;
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+`;

@@ -26,14 +26,14 @@ export enum FilterName {
 export const filters = {
   [FilterName.ALL]: {
     name: FilterName.ALL,
-    function: (todos: Todo[]) => todos,
+    function: () => true,
   },
   [FilterName.ACTIVE]: {
     name: FilterName.ACTIVE,
-    function: (todos: Todo[]) => todos.filter((todo) => !todo.done),
+    function: (todo: Todo) => !todo.done,
   },
   [FilterName.COMPLETED]: {
     name: FilterName.COMPLETED,
-    function: (todos: Todo[]) => todos.filter((todo) => todo.done),
+    function: (todo: Todo) => todo.done,
   },
-};
+} as const;
