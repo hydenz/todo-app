@@ -3,7 +3,7 @@ import type { HeaderProps } from './Header.types';
 
 function Header({ setIsDarkTheme }: HeaderProps) {
   const handleThemeChange = () => {
-    if (setIsDarkTheme) setIsDarkTheme((oldValue) => !oldValue);
+    setIsDarkTheme((oldValue) => !oldValue);
   };
 
   return (
