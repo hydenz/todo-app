@@ -1,5 +1,6 @@
+import type { Todo } from '../Todos';
+
 export interface CreatorProps {
-  newTodoName: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  storageTodos: Todo[];
+  setStorageTodos: (value: Todo[] | ((val: Todo[]) => Todo[])) => void;
 }

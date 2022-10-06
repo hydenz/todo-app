@@ -18,34 +18,7 @@ function Todos({ children }: TodosProps) {
 
   const shownTodos = currentFilter.function(storageTodos);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    if (newValue.length > 50) return;
-    setNewTodoName(newValue);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const id = storageTodos.length
-        ? [...storageTodos].sort(
-            (firstTodo, secTodo) => secTodo.id - firstTodo.id
-          )[0].id + 1
-        : 1;
-      setStorageTodos((oldTodos) => [
-        { name: newTodoName, done: false, id },
-        ...oldTodos,
-      ]);
-      setNewTodoName('');
-    }
-  };
-
-  const handleTodoCompletion = (todoId: number) => {
-    setStorageTodos((todos) => {
-      const foundTodo = todos.find((todo) => todo.id === todoId);
-      foundTodo!.done = !foundTodo!.done;
-      return [...todos];
-    });
-  };
+  const nextFilterName = useRef<FilterName>(currentFilter.name);
 
   const handleCompletedTodosClear = () => {
     setStorageTodos((oldTodos) => oldTodos.filter((todo) => !todo.done));
@@ -84,11 +57,7 @@ function Todos({ children }: TodosProps) {
   return (
     <Container>
       {children}
-      <Creator
-        newTodoName={newTodoName}
-        onChange={handleChange}
-        onKeyPress={handleKeyPress}
-      />
+      <Creator storageTodos={storageTodos} setStorageTodos={setStorageTodos} />
       <List
         todos={shownTodos}
         onTodoCompletion={handleTodoCompletion}
