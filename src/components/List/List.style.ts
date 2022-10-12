@@ -4,15 +4,6 @@ import crossIcon from '../../assets/icon-cross.svg';
 import Row from '../Row';
 
 export const DraggableChildren = styled.div`
-  &.fade-appear {
-    opacity: 0;
-  }
-
-  &.fade-appear-active {
-    opacity: 1;
-    transition: opacity 500ms ease;
-  }
-
   &.fade-enter {
     opacity: 0;
   }
@@ -24,11 +15,13 @@ export const DraggableChildren = styled.div`
 
   &.fade-exit {
     opacity: 1;
+    max-height: 69px;
   }
 
   &.fade-exit-active {
     opacity: 0;
-    transition: opacity 500ms ease;
+    max-height: 0;
+    transition: opacity 500ms ease, max-height 500ms ease 500ms;
   }
 `;
 

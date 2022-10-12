@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading  */
+import { cloneElement, useEffect, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -16,6 +17,8 @@ import {
 import type { ListProps } from './List.types';
 
 function List({ filteredTodos, setStorageTodos }: ListProps) {
+  const [isDragDisabled, setIsDragDisabled] = useState(false);
+
   const handleTodoCompletion = (todoId: number) => {
     setStorageTodos((oldTodos) => {
       const foundTodo = oldTodos.find((todo) => todo.id === todoId)!;
@@ -50,6 +53,16 @@ function List({ filteredTodos, setStorageTodos }: ListProps) {
     });
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsDragDisabled(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [filteredTodos.length]);
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="0">
@@ -57,34 +70,55 @@ function List({ filteredTodos, setStorageTodos }: ListProps) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            style={{ boxShadow: '0px 50px 22px -20px #000' }}
+            style={{
+              boxShadow: '0px 50px 22px -20px #000',
+            }}
           >
             <TransitionGroup>
               {filteredTodos.map((todo, idx) => (
-                <CSSTransition classNames="fade" timeout={500} key={todo.id}>
-                  <Draggable draggableId={todo.id.toString()} index={idx}>
-                    {(innerProvided) => (
-                      <DraggableChildren
-                        ref={innerProvided.innerRef}
-                        {...innerProvided.dragHandleProps}
-                        {...innerProvided.draggableProps}
+                <CSSTransition
+                  classNames="fade"
+                  timeout={{ enter: 500, exit: 1000 }}
+                  key={todo.id}
+                  onExit={() => setIsDragDisabled(true)}
+                >
+                  {(state) => {
+                    const isExiting = state === 'exiting';
+
+                    return (
+                      <Draggable
+                        draggableId={todo.id.toString()}
+                        index={idx}
+                        isDragDisabled={isExiting || isDragDisabled}
                       >
-                        <TodoRow
-                          borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
-                          done={todo.done}
-                        >
-                          <RowCheckWrapper
-                            done={todo.done}
-                            onClick={() => handleTodoCompletion(todo.id)}
+                        {(innerProvided) => (
+                          <DraggableChildren
+                            ref={innerProvided.innerRef}
+                            {...innerProvided.dragHandleProps}
+                            {...innerProvided.draggableProps}
                           >
-                            <RowCheck done={todo.done} />
-                          </RowCheckWrapper>
-                          {todo.name}
-                          <RowCross onClick={() => handleTodoDelete(todo.id)} />
-                        </TodoRow>
-                      </DraggableChildren>
-                    )}
-                  </Draggable>
+                            <TodoRow
+                              borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
+                              done={todo.done}
+                            >
+                              <RowCheckWrapper
+                                done={todo.done}
+                                onClick={() => {
+                                  if (!isExiting) handleTodoCompletion(todo.id);
+                                }}
+                              >
+                                <RowCheck done={todo.done} />
+                              </RowCheckWrapper>
+                              {todo.name}
+                              <RowCross
+                                onClick={() => handleTodoDelete(todo.id)}
+                              />
+                            </TodoRow>
+                          </DraggableChildren>
+                        )}
+                      </Draggable>
+                    );
+                  }}
                 </CSSTransition>
               ))}
             </TransitionGroup>
