@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Container, FadeContainer } from './Todos.style';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -35,8 +35,11 @@ function Todos({ children }: TodosProps) {
 
   const handleExited = () => {
     setCurrentFilter(filters[nextFilterName.current]);
-    setShowTodos(true);
   };
+
+  useEffect(() => {
+    setShowTodos(true);
+  }, [currentFilter]);
 
   return (
     <Container>
