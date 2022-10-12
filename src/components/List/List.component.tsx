@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import { cloneElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
