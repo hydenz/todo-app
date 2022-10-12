@@ -15,7 +15,7 @@ import {
 } from './List.style';
 import type { ListProps } from './List.types';
 
-function List({ filteredTodos, setStorageTodos, showTodos }: ListProps) {
+function List({ filteredTodos, setStorageTodos }: ListProps) {
   const handleTodoCompletion = (todoId: number) => {
     setStorageTodos((oldTodos) => {
       const foundTodo = oldTodos.find((todo) => todo.id === todoId)!;
@@ -59,7 +59,7 @@ function List({ filteredTodos, setStorageTodos, showTodos }: ListProps) {
             {...provided.droppableProps}
             style={{ boxShadow: '0px 50px 22px -20px #000' }}
           >
-            <TransitionGroup exit={showTodos}>
+            <TransitionGroup>
               {filteredTodos.map((todo, idx) => (
                 <CSSTransition classNames="fade" timeout={500} key={todo.id}>
                   <Draggable draggableId={todo.id.toString()} index={idx}>

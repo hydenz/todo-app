@@ -52,7 +52,6 @@ function Todos({ children }: TodosProps) {
       >
         <FadeContainer>
           <List
-            showTodos={showTodos}
             filteredTodos={filteredTodos}
             setStorageTodos={setStorageTodos}
           />
