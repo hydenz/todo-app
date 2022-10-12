@@ -44,7 +44,7 @@ function Todos({ children }: TodosProps) {
       <Creator storageTodos={storageTodos} setStorageTodos={setStorageTodos} />
       <CSSTransition
         classNames="fade"
-        timeout={500}
+        timeout={{ appear: 1000, enter: 500, exit: 500 }}
         in={showTodos}
         appear
         unmountOnExit

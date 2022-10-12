@@ -16,7 +16,7 @@ export const FadeContainer = styled.div`
 
   &.fade-appear-active {
     opacity: 1;
-    transition: opacity 500ms ease;
+    transition: opacity 1000ms ease;
   }
 
   &.fade-enter {
