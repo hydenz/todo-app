@@ -7,13 +7,8 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import {
-  TodoRow,
-  RowCheck,
-  RowCheckWrapper,
-  RowCross,
-  DraggableChildren,
-} from './List.style';
+import Todo from '../Todo';
+import { DraggableChildren } from './List.style';
 import type { ListProps } from './List.types';
 
 function List({ filteredTodos, setStorageTodos }: ListProps) {
@@ -97,23 +92,15 @@ function List({ filteredTodos, setStorageTodos }: ListProps) {
                             {...innerProvided.dragHandleProps}
                             {...innerProvided.draggableProps}
                           >
-                            <TodoRow
-                              borderRadius={!idx ? '.5rem .5rem 0 0' : ''}
-                              done={todo.done}
-                            >
-                              <RowCheckWrapper
-                                done={todo.done}
-                                onClick={() => {
-                                  if (!isExiting) handleTodoCompletion(todo.id);
-                                }}
-                              >
-                                <RowCheck done={todo.done} />
-                              </RowCheckWrapper>
-                              {todo.name}
-                              <RowCross
-                                onClick={() => handleTodoDelete(todo.id)}
-                              />
-                            </TodoRow>
+                            <Todo
+                              todo={todo}
+                              onTodoCompletion={(todoID) => {
+                                if (!isExiting) handleTodoCompletion(todoID);
+                              }}
+                              onTodoDeletion={(todoID) =>
+                                handleTodoDelete(todoID)
+                              }
+                            />
                           </DraggableChildren>
                         )}
                       </Draggable>
