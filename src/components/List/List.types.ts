@@ -1,6 +1,6 @@
-import type { Todo } from '../Todos';
+import type { ITodo } from '../Todo';
 
 export interface ListProps {
-  filteredTodos: Todo[];
-  setStorageTodos: (value: Todo[] | ((val: Todo[]) => Todo[])) => void;
+  filteredTodos: ITodo[];
+  setStorageTodos: (value: ITodo[] | ((val: ITodo[]) => ITodo[])) => void;
 }
