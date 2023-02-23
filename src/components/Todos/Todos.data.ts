@@ -1,4 +1,5 @@
 import type { ITodo } from '../Todo';
+import type { TFilterName } from './Todos.types';
 
 export const initialTodos: ITodo[] = [
   {
@@ -17,23 +18,8 @@ export const initialTodos: ITodo[] = [
   },
 ];
 
-export enum FilterName {
-  ALL = 'All',
-  ACTIVE = 'Active',
-  COMPLETED = 'Completed',
-}
-
-export const filters = {
-  [FilterName.ALL]: {
-    name: FilterName.ALL,
-    function: () => true,
-  },
-  [FilterName.ACTIVE]: {
-    name: FilterName.ACTIVE,
-    function: (todo: ITodo) => !todo.done,
-  },
-  [FilterName.COMPLETED]: {
-    name: FilterName.COMPLETED,
-    function: (todo: ITodo) => todo.done,
-  },
+export const filters: { [key in TFilterName]: (todo: ITodo) => boolean } = {
+  All: () => true,
+  Active: (todo: ITodo) => !todo.done,
+  Completed: (todo: ITodo) => todo.done,
 } as const;

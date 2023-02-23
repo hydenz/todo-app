@@ -7,7 +7,7 @@ import {
   FiltersButton,
   DragnDropText,
 } from './Controls.style';
-import { filters, FilterName } from '../Todos';
+import { filters, TFilterName } from '../Todos';
 import type { ControlsProps } from './Controls.types';
 
 function Controls({
@@ -20,7 +20,7 @@ function Controls({
     query: '(min-device-width: 570px)',
   });
 
-  const filtersControlButtons = (Object.keys(filters) as FilterName[]).map(
+  const filtersControlButtons = (Object.keys(filters) as TFilterName[]).map(
     (filterName) => (
       <FiltersButton
         key={filterName}

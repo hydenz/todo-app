@@ -1,3 +1,3 @@
 export { default } from './Todos.component';
-export type { TodosProps } from './Todos.types';
-export { FilterName, filters } from './Todos.data';
+export type { TodosProps, TFilterName } from './Todos.types';
+export { filters } from './Todos.data';
