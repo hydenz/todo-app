@@ -1,4 +1,4 @@
-import type { TFilterName } from '../Todos';
+import type { TFilterName } from '../../constants';
 
 export interface ControlsProps {
   activeTodosLength: number;
