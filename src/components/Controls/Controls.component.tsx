@@ -7,7 +7,7 @@ import {
   FiltersButton,
   DragnDropText,
 } from './Controls.style';
-import { filters, TFilterName } from '../Todos';
+import { filters, TFilterName } from '../../constants';
 import type { ControlsProps } from './Controls.types';
 
 function Controls({

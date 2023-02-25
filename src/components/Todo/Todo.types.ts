@@ -1,8 +1,4 @@
-export interface ITodo {
-  id: number;
-  name: string;
-  done: boolean;
-}
+import type { ITodo } from '../../constants';
 
 export interface TodoProps {
   todo: ITodo;

@@ -10,6 +10,7 @@ export const Container = styled(Row)<ContainerProps>`
   text-decoration: ${({ done }) => done && 'line-through'};
   border-bottom: ${({ theme }) => `1px solid ${theme.colors.rowDivider}`};
   font-size: clamp(1.2rem, 1rem + 0.5vw, 3rem);
+  cursor: grab;
 
   &:first-child {
     border-radius: 0.5rem 0.5rem 0 0;

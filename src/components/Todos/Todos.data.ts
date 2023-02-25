@@ -1,5 +1,4 @@
 import type { ITodo } from '../Todo';
-import type { TFilterName } from './Todos.types';
 
 export const initialTodos: ITodo[] = [
   {
@@ -17,9 +16,3 @@ export const initialTodos: ITodo[] = [
     id: 6,
   },
 ];
-
-export const filters: { [key in TFilterName]: (todo: ITodo) => boolean } = {
-  All: () => true,
-  Active: (todo: ITodo) => !todo.done,
-  Completed: (todo: ITodo) => todo.done,
-} as const;

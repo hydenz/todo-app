@@ -5,8 +5,9 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import Creator from '../Creator';
 import List from '../List';
 import Controls from '../Controls';
-import { initialTodos, filters } from './Todos.data';
-import type { TodosProps, TFilterName } from './Todos.types';
+import { initialTodos } from './Todos.data';
+import { filters, TFilterName } from '../../constants';
+import type { TodosProps } from './Todos.types';
 
 function Todos({ children }: TodosProps) {
   const [storageTodos, setStorageTodos] = useLocalStorage(

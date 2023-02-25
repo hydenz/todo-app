@@ -1,12 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading  */
 import { useEffect, useState } from 'react';
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import StrictModeDroppable from '../StrictModeDroppable';
 import Todo from '../Todo';
 import { DraggableChildren } from './List.style';
 import type { ListProps } from './List.types';
@@ -60,7 +56,7 @@ function List({ filteredTodos, setStorageTodos }: ListProps) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="0">
+      <StrictModeDroppable droppableId="0">
         {(provided) => (
           <div
             ref={provided.innerRef}
@@ -112,7 +108,7 @@ function List({ filteredTodos, setStorageTodos }: ListProps) {
             {provided.placeholder}
           </div>
         )}
-      </Droppable>
+      </StrictModeDroppable>
     </DragDropContext>
   );
 }
