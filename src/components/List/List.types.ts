@@ -1,4 +1,4 @@
-import type { ITodo } from '../Todo';
+import type { ITodo } from '../../constants';
 
 export interface ListProps {
   filteredTodos: ITodo[];
